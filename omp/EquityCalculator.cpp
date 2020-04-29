@@ -11,7 +11,7 @@ namespace omp {
 
 // Start new calculation and spawn threads.
 bool EquityCalculator::start(const std::vector<CardRange>& handRanges, uint64_t boardCards, uint64_t deadCards,
-                             bool enumerateAll, double stdevTarget, std::function<void(const Results&)> callback,
+                             bool enumerateAll, double stdevTarget, std::tr1::function<void(const Results&)> callback,
                              double updateInterval, unsigned threadCount)
 {
     if (handRanges.size() == 0 || handRanges.size() > MAX_PLAYERS)

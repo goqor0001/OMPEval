@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <array>
 #include <cstdint>
+#include <tr1/functional>
 
 namespace omp {
 
@@ -73,7 +74,7 @@ public:
     // threadCount: number of threads to spawn, 0 for maximum parallelism supported by hardware
     bool start(const std::vector<CardRange>& handRanges, uint64_t boardCards = 0, uint64_t deadCards = 0,
                bool enumerateAll = false, double stdevTarget = 5e-5,
-               std::function<void(const Results&)> callback = nullptr,
+               std::tr1::function<void(const Results&)> callback = nullptr,
                double updateInterval = 0.2, unsigned threadCount = 0);
 
     // Force current calculation to stop before it's ready. Still must call wait()!
@@ -199,7 +200,7 @@ private:
     HandEvaluator mEval;
     double mStdevTarget = 5e-5, mTimeLimit = (double)INFINITE, mUpdateInterval = 0.1;
     uint64_t mHandLimit = INFINITE;
-    std::function<void(const Results& results)> mCallback;
+    std::tr1::function<void(const Results& results)> mCallback;
 
     // Precalculated results for 2 player preflop situations. Uses a sorted array for lowest memory use.
     static const std::vector<uint64_t> PRECALCULATED_2PLAYER_RESULTS;
