@@ -21,17 +21,9 @@ public:
     template<bool tFlushPossible = true>
     uint16_t evaluate7(int c1, int c2, int c3, int c4, int c5, int c6, int c7)
     {
-	Hand hand = Hand::empty();
-	hand += Hand(c1) + Hand(c2) + Hand(c3) + Hand(c4) + Hand(c5) + Hand(c6) + Hand(c7);
-        omp_assert(hand.count() <= 7 && hand.count() == bitCount(hand.mask()));
-        if (!tFlushPossible || !hand.hasFlush()) {
-            uint32_t key = hand.rankKey();
-            return LOOKUP[perfHash(key)];
-        } else {
-            uint16_t flushKey = hand.flushKey();
-            omp_assert(flushKey < FLUSH_LOOKUP_SIZE);
-            return FLUSH_LOOKUP[flushKey];
-        }
+	    Hand hand = Hand::empty();
+	    hand += Hand(c1) + Hand(c2) + Hand(c3) + Hand(c4) + Hand(c5) + Hand(c6) + Hand(c7);
+        return evaluate(hand);
     }
 
     template<bool tFlushPossible = true>
@@ -39,15 +31,7 @@ public:
     {
         Hand hand = Hand::empty();
         hand += Hand(c1) + Hand(c2) + Hand(c3) + Hand(c4) + Hand(c5) + Hand(c6);
-        omp_assert(hand.count() <= 7 && hand.count() == bitCount(hand.mask()));
-        if (!tFlushPossible || !hand.hasFlush()) {
-            uint32_t key = hand.rankKey();
-            return LOOKUP[perfHash(key)];
-        } else {
-            uint16_t flushKey = hand.flushKey();
-            omp_assert(flushKey < FLUSH_LOOKUP_SIZE);
-            return FLUSH_LOOKUP[flushKey];
-        }
+        return evaluate(hand);
     }
 
     template<bool tFlushPossible = true>
@@ -55,15 +39,7 @@ public:
     {
         Hand hand = Hand::empty();
         hand += Hand(c1) + Hand(c2) + Hand(c3) + Hand(c4) + Hand(c5);
-        omp_assert(hand.count() <= 7 && hand.count() == bitCount(hand.mask()));
-        if (!tFlushPossible || !hand.hasFlush()) {
-            uint32_t key = hand.rankKey();
-            return LOOKUP[perfHash(key)];
-        } else {
-            uint16_t flushKey = hand.flushKey();
-            omp_assert(flushKey < FLUSH_LOOKUP_SIZE);
-            return FLUSH_LOOKUP[flushKey];
-        }
+        return evaluate(hand);
     }
 
     template<bool tFlushPossible = true>
