@@ -13,16 +13,16 @@ endif
 SRCS := $(wildcard omp/*.cpp)
 OBJS := ${SRCS:.cpp=.o}
 
-all: lib/ompeval.a 
+all: lib/libompeval.a 
 
 lib:
 	mkdir lib
 
-lib/ompeval.a: $(OBJS) | lib
+lib/libompeval.a: $(OBJS) | lib
 	ar rcs $@ $^
 
-test: lib/ompeval.a
+test: lib/libompeval.a
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 clean:
-	$(RM) test test.exe lib/ompeval.a $(OBJS)
+	$(RM) test test.exe lib/libompeval.a $(OBJS)

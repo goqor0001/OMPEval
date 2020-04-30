@@ -19,10 +19,42 @@ public:
     // cards. A missing card is considered the worst kicker, e.g. K < KQJT8 < A < AK < KKAQJ < AA < AA2 < AA4 < AA432.
     // Hand category can be extracted by dividing the value by 4096. 1=highcard, 2=pair, etc.
     template<bool tFlushPossible = true>
-    uint16_t evaluate(int c1, int c2, int c3, int c4, int c5, int c6, int c7)
+    uint16_t evaluate7(int c1, int c2, int c3, int c4, int c5, int c6, int c7)
     {
 	Hand hand = Hand::empty();
 	hand += Hand(c1) + Hand(c2) + Hand(c3) + Hand(c4) + Hand(c5) + Hand(c6) + Hand(c7);
+        omp_assert(hand.count() <= 7 && hand.count() == bitCount(hand.mask()));
+        if (!tFlushPossible || !hand.hasFlush()) {
+            uint32_t key = hand.rankKey();
+            return LOOKUP[perfHash(key)];
+        } else {
+            uint16_t flushKey = hand.flushKey();
+            omp_assert(flushKey < FLUSH_LOOKUP_SIZE);
+            return FLUSH_LOOKUP[flushKey];
+        }
+    }
+
+    template<bool tFlushPossible = true>
+    uint16_t evaluate6(int c1, int c2, int c3, int c4, int c5, int c6)
+    {
+        Hand hand = Hand::empty();
+        hand += Hand(c1) + Hand(c2) + Hand(c3) + Hand(c4) + Hand(c5) + Hand(c6);
+        omp_assert(hand.count() <= 7 && hand.count() == bitCount(hand.mask()));
+        if (!tFlushPossible || !hand.hasFlush()) {
+            uint32_t key = hand.rankKey();
+            return LOOKUP[perfHash(key)];
+        } else {
+            uint16_t flushKey = hand.flushKey();
+            omp_assert(flushKey < FLUSH_LOOKUP_SIZE);
+            return FLUSH_LOOKUP[flushKey];
+        }
+    }
+
+    template<bool tFlushPossible = true>
+    uint16_t evaluate5(int c1, int c2, int c3, int c4, int c5)
+    {
+        Hand hand = Hand::empty();
+        hand += Hand(c1) + Hand(c2) + Hand(c3) + Hand(c4) + Hand(c5);
         omp_assert(hand.count() <= 7 && hand.count() == bitCount(hand.mask()));
         if (!tFlushPossible || !hand.hasFlush()) {
             uint32_t key = hand.rankKey();
