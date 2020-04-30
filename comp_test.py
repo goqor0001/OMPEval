@@ -1,9 +1,10 @@
 import pyomp
+import time
 
-print("aaaaaaaaaaaaa")
-print(dir(pyomp))
+print(pyomp.eval5(51, 48, 0, 1, 2))
 
-print(pyomp.eval7(1, 2, 3, 4, 5, 6, 7))
-print(pyomp.eval6(1, 2, 3, 4, 5, 6))
-print(pyomp.eval5(1, 2, 3, 4, 5))
-
+s = time.time()
+for i in range(10000000):
+    c = i % 10
+    pyomp.eval7(c, c + 10, c + 20, c + 30, c + 40, c + 15, c + 25)     
+print (time.time() - s)
