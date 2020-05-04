@@ -9,7 +9,9 @@ examples_extension = Extension(
     library_dirs=["lib"],
     include_dirs=["lib"]
 )
+
 setup(
     name="pyomp",
-    ext_modules=cythonize([examples_extension], language="c++")
+    ext_modules=cythonize([examples_extension])
 )
+
